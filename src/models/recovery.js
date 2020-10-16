@@ -13,11 +13,11 @@ const tokenSchema = new mongoose.Schema({
         type: Date,
         default: Date.now(),
         index: {
-            expires: '1000m',
+            expires: '60m',
         },
     },
 });
 
-const Token = mongoose.model('Token', tokenSchema);
+const Recovery = mongoose.model('Recovery', tokenSchema);
 
-module.exports = Token;
+module.exports = Recovery;

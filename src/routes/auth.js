@@ -61,4 +61,10 @@ router.delete('/logout', async (req, res) => {
     }
 });
 
+router.post('/recovery', async (req, res) => {});
+
+router.post('/reset');
+
+router.post('/editprofile');
+
 module.exports = router;
