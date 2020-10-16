@@ -16,7 +16,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
-let accessLogStream = rfs.createStream('access.log', {
+let accessLogStream = rfs.createStream('httpRequest.log', {
     interval: '1d',
     path: path.resolve(__dirname + '/src/log'),
 });

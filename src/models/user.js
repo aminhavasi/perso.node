@@ -1,51 +1,41 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const Token = require('./auth');
 
-const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        trim: true,
-        minlength: 3,
-        maxlength: 255,
-        required: true,
-    },
-    email: {
-        type: String,
-        minlength: 3,
-        maxlength: 255,
-        required: true,
-        unique: true,
-    },
-    password: {
-        type: String,
-        minlength: 8,
-        maxlength: 1024,
-        required: true,
-    },
-    date: {
-        type: String,
-        required: true,
-    },
-    access: {
-        type: String,
-        required: true,
-    },
-    tokens: [
-        {
-            _id: false,
-            access: {
-                type: String,
-                required: true,
-            },
-            token: {
-                type: String,
-                required: true,
-            },
-            expireAt: { type: Date, expires: 3600, default: Date.now },
+const userSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            trim: true,
+            minlength: 3,
+            maxlength: 255,
+            required: true,
         },
-    ],
-});
+        email: {
+            type: String,
+            minlength: 3,
+            maxlength: 255,
+            required: true,
+            unique: true,
+        },
+        password: {
+            type: String,
+            minlength: 8,
+            maxlength: 1024,
+            required: true,
+        },
+        date: {
+            type: String,
+            required: true,
+        },
+        access: {
+            type: String,
+            required: true,
+        },
+    },
+    { toJSON: { virtuals: true } }
+);
 
 userSchema.pre('save', function (next) {
     let user = this;
@@ -79,21 +69,27 @@ userSchema.statics.findByCredintials = function (email, password) {
 
 userSchema.methods.genAuthToken = function () {
     let user = this;
-    let access = 'user';
+
     let token = jwt
         .sign(
             {
                 _id: user._id.toHexString(),
-                access,
             },
             process.env.JWT_CONFIG
         )
         .toString();
-    user.tokens.push({ token, access });
+    const newToken = new Token({ user: user._id, token });
+    newToken.save();
+
     return user.save().then(() => {
         return token;
     });
 };
+userSchema.virtual('user', {
+    ref: 'Token',
+    localField: '_id',
+    foreignField: 'user',
+});
 
 const User = mongoose.model('User', userSchema);
 
