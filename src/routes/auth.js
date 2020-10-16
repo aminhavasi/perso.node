@@ -6,6 +6,7 @@ const {
     loginValidator,
 } = require('./../validator/authValidator');
 const User = require('../models/user');
+const Token = require('./../models/auth');
 persianDate.toLocale('en');
 const date = new persianDate().format('YYYY/M/DD');
 router.post('/register', async (req, res) => {
@@ -44,6 +45,19 @@ router.post('/login', async (req, res) => {
         if (err === 'not')
             return res.status(404).send('Your email or password is incorrect');
         res.status(400).send('something went wrong');
+    }
+});
+
+router.delete('/logout', async (req, res) => {
+    try {
+        let token = req.body.token;
+        if (!token) return res.status(404).send('Token not found!');
+        const tt = await Token.findOneAndDelete({ token });
+
+        if (tt) return res.status(200).send('logout success!');
+        res.status(404).send('token not found');
+    } catch (err) {
+        res.status(400).send(err);
     }
 });
 
