@@ -5,6 +5,7 @@ const {
     registerValidator,
     loginValidator,
     recoveryValidator,
+    recoveryPassValidator,
 } = require('./../validator/authValidator');
 const User = require('../models/user');
 const Token = require('./../models/auth');
@@ -86,8 +87,25 @@ router.post('/recovery', async (req, res) => {
     }
 });
 
-router.post('/reset');
-
-router.post('/editprofile');
+router.post('/reset', async (req, res) => {
+    try {
+        const { error } = await recoveryPassValidator(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
+        let token = await Recovery.findOne({ token: req.body.token });
+        if (!token) return res.status(401).send('Access Denied!');
+        await User.findOneAndUpdate(
+            { _id: token.user },
+            { $set: { password: req.body.password } },
+            (err, doc) => {
+                if (err) return res.status(400).send('something went wrong');
+            }
+        );
+        await Recovery.updateOne({ _id: token._id }, { $unset: { token: 1 } });
+        token.save();
+        res.status(200).send('success change password');
+    } catch (err) {
+        res.status(400).send(err);
+    }
+});
 
 module.exports = router;
