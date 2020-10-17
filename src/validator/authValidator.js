@@ -17,4 +17,11 @@ const loginValidator = (user) => {
     return schema.validate(user);
 };
 
-module.exports = { registerValidator, loginValidator };
+const recoveryValidator = (email) => {
+    const schema = joi.object({
+        email: joi.string().email().required().min(3).max(255),
+    });
+    return schema.validate(email);
+};
+
+module.exports = { registerValidator, loginValidator, recoveryValidator };

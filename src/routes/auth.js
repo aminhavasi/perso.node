@@ -4,6 +4,7 @@ const persianDate = require('persian-date');
 const {
     registerValidator,
     loginValidator,
+    recoveryValidator,
 } = require('./../validator/authValidator');
 const User = require('../models/user');
 const Token = require('./../models/auth');
@@ -61,7 +62,14 @@ router.delete('/logout', async (req, res) => {
     }
 });
 
-router.post('/recovery', async (req, res) => {});
+router.post('/recovery', async (req, res) => {
+    try {
+        const { error } = await recoveryValidator(req.body);
+        if (err) return res.status(400).send(error.details[0].message);
+    } catch (err) {
+        res.status(400).send(err);
+    }
+});
 
 router.post('/reset');
 
