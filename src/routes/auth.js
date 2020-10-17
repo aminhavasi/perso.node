@@ -8,6 +8,9 @@ const {
 } = require('./../validator/authValidator');
 const User = require('../models/user');
 const Token = require('./../models/auth');
+const Recovery = require('../models/recovery');
+const sendRecoveryEmail = require('../helper/email');
+const genAuthTokenRecovery = require('../helper/tokenRecovery');
 persianDate.toLocale('en');
 const date = new persianDate().format('YYYY/M/DD');
 router.post('/register', async (req, res) => {
@@ -65,8 +68,20 @@ router.delete('/logout', async (req, res) => {
 router.post('/recovery', async (req, res) => {
     try {
         const { error } = await recoveryValidator(req.body);
-        if (err) return res.status(400).send(error.details[0].message);
+        if (error) return res.status(400).send(error.details[0].message);
+        const user = await User.findOne({ email: req.body.email });
+
+        if (!user) return res.status(404).send('email not found');
+        const newToken = await genAuthTokenRecovery(user);
+        const token = new Recovery({
+            user: user._id,
+            token: newToken,
+        });
+        await token.save();
+        await sendRecoveryEmail(user, newToken);
+        res.status(200).send('ok');
     } catch (err) {
+        console.log(err);
         res.status(400).send(err);
     }
 });
