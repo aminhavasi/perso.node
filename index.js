@@ -24,6 +24,8 @@ app.use(morgan('combined', { stream: accessLogStream }));
 db();
 
 app.use('/api/auth', require('./src/routes/auth'));
+app.use('/api/admin', require('./src/routes/admin'));
+
 httpService.listen(port, () => {
     console.log(`server is running on port ${port}`);
 });

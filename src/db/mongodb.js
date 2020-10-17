@@ -5,7 +5,7 @@ const db = () => {
         {
             useCreateIndex: true,
             useNewUrlParser: true,
-            useFindAndModify: true,
+            useFindAndModify: false,
             useUnifiedTopology: true,
         },
         (err) => {
