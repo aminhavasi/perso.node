@@ -25,6 +25,7 @@ db();
 
 app.use('/api/auth', require('./src/routes/auth'));
 app.use('/api/admin', require('./src/routes/admin'));
+app.use('/api/resume', require('./src/routes/resume'));
 
 httpService.listen(port, () => {
     console.log(`server is running on port ${port}`);

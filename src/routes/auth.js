@@ -12,6 +12,7 @@ const Token = require('./../models/auth');
 const Recovery = require('../models/recovery');
 const sendRecoveryEmail = require('../helper/email');
 const genAuthTokenRecovery = require('../helper/tokenRecovery');
+const { request } = require('express');
 persianDate.toLocale('en');
 const date = new persianDate().format('YYYY/M/DD');
 router.post('/register', async (req, res) => {
