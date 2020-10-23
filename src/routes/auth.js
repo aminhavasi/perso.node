@@ -54,6 +54,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
+//-------------------
 router.delete('/logout', async (req, res) => {
     try {
         let token = req.body.token;
