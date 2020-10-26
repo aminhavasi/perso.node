@@ -1,0 +1,7 @@
+::1 - - [26/Oct/2020:18:21:27 +0000] "POST /api/resume/create HTTP/1.1" 201 351 "-" "PostmanRuntime/7.26.3"
+::1 - - [26/Oct/2020:18:24:30 +0000] "POST /api/resume/create HTTP/1.1" 401 32 "-" "PostmanRuntime/7.26.3"
+::1 - - [26/Oct/2020:18:24:53 +0000] "POST /api/auth/login HTTP/1.1" 200 - "-" "PostmanRuntime/7.26.3"
+::1 - - [26/Oct/2020:18:26:16 +0000] "POST /api/resume/create HTTP/1.1" 401 32 "-" "PostmanRuntime/7.26.3"
+::1 - - [26/Oct/2020:18:26:38 +0000] "POST /api/resume/create HTTP/1.1" 401 32 "-" "PostmanRuntime/7.26.3"
+::1 - - [26/Oct/2020:18:27:16 +0000] "POST /api/resume/create HTTP/1.1" 400 58 "-" "PostmanRuntime/7.26.3"
+::1 - - [26/Oct/2020:18:27:35 +0000] "POST /api/resume/create HTTP/1.1" 201 352 "-" "PostmanRuntime/7.26.3"

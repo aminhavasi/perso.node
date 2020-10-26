@@ -32,7 +32,7 @@ const resumeSchmea = new mongoose.Schema({
     },
     education: {
         type: String,
-        default: 'Studying',
+        default: 'studying',
     },
     achievements: [
         {
@@ -70,3 +70,6 @@ const resumeSchmea = new mongoose.Schema({
         },
     ],
 });
+
+const Resume = mongoose.model('Resume', resumeSchmea);
+module.exports = Resume;
