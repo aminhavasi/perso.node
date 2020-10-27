@@ -16,4 +16,9 @@ router.post('/create', authenticate, async (req, res) => {
     }
 });
 
+router.delete('/delete', authenticate, async (req, res) => {
+    try {
+    } catch (err) {}
+});
+
 module.exports = router;
