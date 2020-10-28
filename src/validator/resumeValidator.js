@@ -29,4 +29,12 @@ const resumeValidator = (body) => {
     return schmea.validate(body);
 };
 
-module.exports = { resumeValidator };
+const resumeDelete = (id) => {
+    const schema = joi.object({
+        _id: joi.string().required(),
+    });
+
+    return schema.validate(id);
+};
+
+module.exports = { resumeValidator, resumeDelete };
