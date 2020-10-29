@@ -37,4 +37,32 @@ const resumeDelete = (id) => {
     return schema.validate(id);
 };
 
-module.exports = { resumeValidator, resumeDelete };
+const resumeEdit = (body) => {
+    const schema = joi.object({
+        _id: joi.string().required(),
+        name: joi.string().min(3).max(255).regex(pattern),
+        family: joi.string().min(3).max(255).regex(pattern),
+        bornDate: joi.string(),
+        address: joi.string(),
+        phoneNumber: joi.number(),
+        email: joi.string().email(),
+        education: joi.string(),
+        achievements: joi.array(),
+        skills: joi.array().items(
+            joi.object({
+                name: joi.string().min(3).max(255),
+                rate: joi.number(),
+            })
+        ),
+        works: joi.array().items(
+            joi.object({
+                name: joi.string().min(3).max(255),
+                join: joi.string().min(3).max(255),
+                left: joi.string().min(2).max(255),
+            })
+        ),
+    });
+    return schema.validate(body);
+};
+
+module.exports = { resumeValidator, resumeDelete, resumeEdit };
